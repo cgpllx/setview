@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_view_basic_item_h_container"
+    style="@style/SettingViewContainer"
+    android:gravity="center" >
+
+    <ImageView
+        android:contentDescription=""
+        android:id="@+id/setting_view_basic_item_h_icon"
+        style="@style/SettingViewIcon"
+        android:src="@drawable/qq_icon01" />
+
+    <TextView
+        android:id="@+id/setting_view_basic_item_h_title"
+        style="@style/SettingViewTitleH"
+        android:text="我的钱包" />
+
+    <TextView
+        android:id="@+id/setting_view_basic_item_h_subtitle"
+        android:text="中国移动"
+        style="@style/SettingViewSubtitleH" />
+
+    <Switch
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:layout_marginRight="@dimen/setting_view_lr_padding"
+        android:switchMinWidth="100dp"
+        android:textOff=" "
+        android:textOn=" "
+        android:thumb="@drawable/switch_btn_normal"
+        android:thumbTextPadding="21dp"
+        android:track="@drawable/switch_btn_bg_green" />
+
+    <ImageView
+        android:id="@+id/setting_view_basic_item_h_arrow"
+        style="@style/SettingViewArrow"
+        android:visibility="visible" />
+
+</LinearLayout>
