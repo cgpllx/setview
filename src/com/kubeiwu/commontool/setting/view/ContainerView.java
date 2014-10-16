@@ -21,6 +21,7 @@ public class ContainerView extends LinearLayout {
 
 	private void initView() {
 		setOrientation(VERTICAL);
+		setPadding(10, 10, 10, 10);
 	}
 
 	public ContainerView(Context context, AttributeSet attrs) {
@@ -32,8 +33,14 @@ public class ContainerView extends LinearLayout {
 		initView();
 	}
 
-	public void addGroupView(List<GroupView> groupViews) {
+	public void addAllGroupView(List<GroupView> groupViews) {
 		this.groupViews.addAll(groupViews);
+		notifyDataChanged();
+	}
+
+	public void addGroupView(GroupView groupView) {
+		this.groupViews.add(groupView);
+		notifyDataChanged();
 	}
 
 	private ArrayList<GroupView> groupViews = new ArrayList<>();

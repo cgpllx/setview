@@ -20,7 +20,7 @@
     <style name="SettingViewContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/setting_view_min_height</item>
-        <item name="android:background">@drawable/setting_view_item_selector</item>
+        <item name="android:background">@drawable/setting_frame_middle</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>

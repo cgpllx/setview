@@ -5,18 +5,17 @@
     android:gravity="center" >
 
     <ImageView
-        android:contentDescription=""
-        android:id="@+id/setting_view_basic_item_h_icon"
+        android:id="@+id/mWidgetRowAction_Icon"
         style="@style/SettingViewIcon"
         android:src="@drawable/qq_icon01" />
 
     <TextView
-        android:id="@+id/setting_view_basic_item_h_title"
+        android:id="@+id/mWidgetRow_Label"
         style="@style/SettingViewTitleH"
         android:text="我的钱包" />
 
     <TextView
-        android:id="@+id/setting_view_basic_item_h_subtitle"
+        android:id="@+id/mWidgetRow_Value"
         android:text="中国移动"
         style="@style/SettingViewSubtitleH" />
 
@@ -34,7 +33,7 @@
         android:track="@drawable/switch_btn_bg_green" />
 
     <ImageView
-        android:id="@+id/setting_view_basic_item_h_arrow"
+        android:id="@+id/mWidgetRow_righ_Common_arrow"
         style="@style/SettingViewArrow"
         android:visibility="visible" />
 

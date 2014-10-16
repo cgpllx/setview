@@ -1,5 +1,7 @@
 package com.kubeiwu.commontool.setting.view;
 
+import com.kubeiwu.commontool.R;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -10,13 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kubeiwu.commontool.R;
-
 public class RowView extends LinearLayout implements OnClickListener {
 
-	private ImageView mWidgetRowActionImg;
-	private TextView mWidgetRowLabel;
-	private ImageView mWidgetRowIconImg;
+	private ImageView mWidgetRowAction_Icon;
+	private TextView mWidgetRow_Label;
+	private TextView mWidgetRow_Value;
+	private ImageView mWidgetRow_righ_Common_arrow;
 
 	private RowView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
@@ -33,34 +34,34 @@ public class RowView extends LinearLayout implements OnClickListener {
 	}
 
 	private void initRowView() {
-		LayoutInflater.from(getContext()).inflate(R.layout.rowviewlayout, this);
-		mWidgetRowActionImg = (ImageView) findViewById(R.id.mWidgetRowActionImg);
-		mWidgetRowLabel = (TextView) findViewById(R.id.mWidgetRowLabel);
-		mWidgetRowIconImg = (ImageView) findViewById(R.id.mWidgetRowIconImg);
-		mWidgetRowIconImg.setBackgroundResource(R.id.icon);
+		LayoutInflater.from(getContext()).inflate(R.layout.setting_view_basic_item_h, this);
+		mWidgetRowAction_Icon = (ImageView) findViewById(R.id.mWidgetRowAction_Icon);
+		mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
+		mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
+		mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
 	}
 
-	private Builder rowDescriptor;
+	private Builder rowBuilder;
 
-	public void initRowViewData(Builder rowDescriptor) {
-		this.rowDescriptor = rowDescriptor;
-		mWidgetRowActionImg.setBackgroundResource(rowDescriptor.getIconResId());
-		mWidgetRowLabel.setText(rowDescriptor.getLable());
-		if (rowDescriptor.getAction() != null) {
+	public void initRowViewData(Builder rowBuilder) {
+		this.rowBuilder = rowBuilder;
+		mWidgetRowAction_Icon.setBackgroundResource(rowBuilder.getIconResourceId());
+		mWidgetRow_Label.setText(rowBuilder.getLable());
+		if (rowBuilder.getAction() != null) {
 			setOnClickListener(this);
-			setBackgroundResource(R.drawable.widgets_general_row_selector);
-			mWidgetRowActionImg.setVisibility(View.VISIBLE);
+//			setBackgroundResource(R.drawable.widgets_general_row_selector);
+			mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);
 		} else {
-			setBackgroundColor(Color.WHITE);
-			mWidgetRowActionImg.setVisibility(View.GONE);
+//			setBackgroundColor(Color.WHITE);
+			mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);
 		}
 
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (rowDescriptor.getListener() != null) {
-			rowDescriptor.getListener().onRowClick(rowDescriptor.getAction());
+		if (rowBuilder.getListener() != null) {
+			rowBuilder.getListener().onRowClick(rowBuilder.getAction());
 		}
 	}
 
@@ -72,42 +73,47 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private RowViewActionEnum action;
 		private String lable;
 		private OnRowClickListener listener;
-		private int iconResId;
+		private int iconResourceId;
 		private Context context;
-		public Builder(Context context){
-			this.context=context;
+
+		public Builder(Context context) {
+			this.context = context;
 		}
 
 		public String getLable() {
 			return lable;
 		}
 
-		public void setLable(String lable) {
+		public Builder setLable(String lable) {
 			this.lable = lable;
+			return this;
 		}
 
 		public OnRowClickListener getListener() {
 			return listener;
 		}
 
-		public void setListener(OnRowClickListener listener) {
+		public Builder setListener(OnRowClickListener listener) {
 			this.listener = listener;
+			return this;
 		}
 
-		public int getIconResId() {
-			return iconResId;
+
+		public int getIconResourceId() {
+			return iconResourceId;
 		}
 
-		public void setIconResId(int iconResId) {
-			this.iconResId = iconResId;
+		public void setIconResourceId(int iconResourceId) {
+			this.iconResourceId = iconResourceId;
 		}
 
 		public RowViewActionEnum getAction() {
 			return action;
 		}
 
-		public void setAction(RowViewActionEnum action) {
+		public Builder setAction(RowViewActionEnum action) {
 			this.action = action;
+			return this;
 		}
 
 		public RowView create() {
