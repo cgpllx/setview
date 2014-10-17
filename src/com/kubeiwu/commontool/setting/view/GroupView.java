@@ -69,7 +69,6 @@ public class GroupView extends LinearLayout {
 	}
 
 	public void notifyDataChanged() {
-		System.out.println("rowViewArray多少=-" + rowViewArray.size());
 		if (rowViewArray != null && rowViewArray.size() > 0) {
 			for (int i = 0; i < rowViewArray.size(); i++) {
 				RowView rowView = rowViewArray.valueAt(i);
