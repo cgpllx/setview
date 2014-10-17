@@ -1,9 +1,7 @@
 package com.kubeiwu.commontool.setting.view;
 
-import com.kubeiwu.commontool.R;
-
 import android.content.Context;
-import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +10,32 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kubeiwu.commontool.R;
+
 public class RowView extends LinearLayout implements OnClickListener {
 
 	private ImageView mWidgetRowAction_Icon;
 	private TextView mWidgetRow_Label;
 	private TextView mWidgetRow_Value;
 	private ImageView mWidgetRow_righ_Common_arrow;
+	private int groupId;
+	private int itemId;
+
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
+
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
 
 	private RowView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
@@ -49,12 +67,24 @@ public class RowView extends LinearLayout implements OnClickListener {
 		mWidgetRow_Label.setText(rowBuilder.getLable());
 		if (rowBuilder.getAction() != null) {
 			setOnClickListener(this);
-//			setBackgroundResource(R.drawable.widgets_general_row_selector);
-			mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);
+			// setBackgroundResource(R.drawable.widgets_general_row_selector);
+			mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);// 可以点击时候显示箭头
 		} else {
-//			setBackgroundColor(Color.WHITE);
-			mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);
+			// setBackgroundColor(Color.WHITE);
+			mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
 		}
+		if (rowBuilder.getIconResourceId() != 0) {
+			mWidgetRowAction_Icon.setBackgroundResource(rowBuilder.getIconResourceId());
+		} else {
+			mWidgetRowAction_Icon.setVisibility(View.GONE);
+		}
+		if (!TextUtils.isEmpty(rowBuilder.getValue_String())) {
+			mWidgetRow_Value.setText(rowBuilder.getValue_String());
+		} else {
+			mWidgetRow_Value.setVisibility(View.GONE);
+		}
+		groupId = rowBuilder.getGroupId();
+		itemId = rowBuilder.getItemId();
 
 	}
 
@@ -75,6 +105,36 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private OnRowClickListener listener;
 		private int iconResourceId;
 		private Context context;
+		private String value_String;
+		private int groupId;
+
+		public int getGroupId() {
+			return groupId;
+		}
+
+		public Builder setGroupId(int groupId) {
+			this.groupId = groupId;
+			return this;
+		}
+
+		public int getItemId() {
+			return itemId;
+		}
+
+		public Builder setItemId(int itemId) {
+			this.itemId = itemId;
+			return this;
+		}
+
+		private int itemId;
+
+		public String getValue_String() {
+			return value_String;
+		}
+
+		public void setValue_String(String value_String) {
+			this.value_String = value_String;
+		}
 
 		public Builder(Context context) {
 			this.context = context;
@@ -97,7 +157,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 			this.listener = listener;
 			return this;
 		}
-
 
 		public int getIconResourceId() {
 			return iconResourceId;

@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -32,26 +31,35 @@ public class ContainerView extends LinearLayout {
 		super(context);
 		initView();
 	}
-
-	public void addAllGroupView(List<GroupView> groupViews) {
-		this.groupViews.addAll(groupViews);
+	SparseArray<GroupView> groupViewArray = new SparseArray<>();
+	
+	public void addAllGroupView(SparseArray<GroupView> groupViewArray) {
+		this.groupViewArray=groupViewArray;
 		notifyDataChanged();
 	}
+ 
 
-	public void addGroupView(GroupView groupView) {
-		this.groupViews.add(groupView);
-		notifyDataChanged();
-	}
-
-	private ArrayList<GroupView> groupViews = new ArrayList<>();
+//	private ArrayList<GroupView> groupViews = new ArrayList<>();
 
 	public void notifyDataChanged() {
-		if (groupViews != null && groupViews.size() > 0) {
-			for (GroupView groupView : groupViews) {
-				addView(groupView);
-			}
-		} else {
-			setVisibility(View.GONE);
-		}
+		
+		 if(groupViewArray != null && groupViewArray.size() > 0){
+			 for (int i = 0; i < groupViewArray.size(); i++) {
+				 GroupView groupView = groupViewArray.valueAt(i);
+				 addView(groupView);
+				 groupView.notifyDataChanged();
+			 }
+		 }else{
+			 setVisibility(View.GONE);
+		 }
+		
+		
+//		if (groupViews != null && groupViews.size() > 0) {
+//			for (GroupView groupView : groupViews) {
+//				addView(groupView);
+//			}
+//		} else {
+//			setVisibility(View.GONE);
+//		}
 	}
 }
