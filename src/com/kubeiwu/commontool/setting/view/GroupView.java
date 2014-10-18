@@ -48,7 +48,7 @@ public class GroupView extends LinearLayout {
 	}
 
 	// private ArrayList<RowView> rowViews = new ArrayList<>();
-	SparseArray<RowView> rowViewArray = new SparseArray<>();
+	SparseArray<RowView> rowViewArray = new SparseArray<RowView>();
 
 	public void addAllRowView(ArrayList<RowView> rowViews) {
 		// this.rowViews.addAll(rowViews);

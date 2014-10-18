@@ -1,8 +1,5 @@
 package com.kubeiwu.commontool.setting.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -31,35 +28,24 @@ public class ContainerView extends LinearLayout {
 		super(context);
 		initView();
 	}
-	SparseArray<GroupView> groupViewArray = new SparseArray<>();
-	
+
+	SparseArray<GroupView> groupViewArray = null;
+
 	public void addAllGroupView(SparseArray<GroupView> groupViewArray) {
-		this.groupViewArray=groupViewArray;
+		this.groupViewArray = groupViewArray;
 		notifyDataChanged();
 	}
- 
-
-//	private ArrayList<GroupView> groupViews = new ArrayList<>();
 
 	public void notifyDataChanged() {
-		
-		 if(groupViewArray != null && groupViewArray.size() > 0){
-			 for (int i = 0; i < groupViewArray.size(); i++) {
-				 GroupView groupView = groupViewArray.valueAt(i);
-				 addView(groupView);
-				 groupView.notifyDataChanged();
-			 }
-		 }else{
-			 setVisibility(View.GONE);
-		 }
-		
-		
-//		if (groupViews != null && groupViews.size() > 0) {
-//			for (GroupView groupView : groupViews) {
-//				addView(groupView);
-//			}
-//		} else {
-//			setVisibility(View.GONE);
-//		}
+		if (groupViewArray != null && groupViewArray.size() > 0) {
+			for (int i = 0; i < groupViewArray.size(); i++) {
+				GroupView groupView = groupViewArray.valueAt(i);
+				addView(groupView);
+				groupView.notifyDataChanged();
+			}
+		} else {
+			setVisibility(View.GONE);
+		}
+
 	}
 }

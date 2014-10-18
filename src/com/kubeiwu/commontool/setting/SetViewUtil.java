@@ -20,7 +20,7 @@ public class SetViewUtil {
 	public ContainerView getContainerView() { 
 		return containerView;
 	}
-	SparseArray<GroupView> groupViewArray = new SparseArray<>();
+	SparseArray<GroupView> groupViewArray = new SparseArray<GroupView>();
 	
 	public void add(int groupId, int itemId, int order, String title) {
 		RowView rowView=new RowView.Builder(context).setGroupId(groupId).setItemId(itemId)//
