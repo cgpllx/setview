@@ -1,17 +1,11 @@
 package com.kubeiwu.commontool;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.kubeiwu.commontool.setting.SetViewUtil;
 import com.kubeiwu.commontool.setting.view.ContainerView;
-import com.kubeiwu.commontool.setting.view.GroupView;
-import com.kubeiwu.commontool.setting.view.RowView;
-import com.kubeiwu.commontool.setting.view.RowViewActionEnum;
 
 public class MainActivity extends ActionBarActivity {
 
