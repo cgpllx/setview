@@ -34,7 +34,7 @@ public class ContainerView extends LinearLayout {
 		notifyDataChanged();
 	}
 
-	SparseArray<GroupView> mGroupViewArray = new SparseArray<GroupView>();
+	private SparseArray<GroupView> mGroupViewArray = new SparseArray<GroupView>();
 
 	/**
 	 * 增加一条item
