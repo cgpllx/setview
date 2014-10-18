@@ -1,5 +1,7 @@
 package com.kubeiwu.commontool.setting.view;
 
+import java.util.LinkedList;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -18,15 +20,15 @@ public class RowView extends LinearLayout implements OnClickListener {
 	private TextView mWidgetRow_Label;
 	private TextView mWidgetRow_Value;
 	private ImageView mWidgetRow_righ_Common_arrow;
-	private int groupId;
 	private int itemId;
+	private RowView next;
 
-	public int getGroupId() {
-		return groupId;
+	public RowView getNext() {
+		return next;
 	}
 
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
+	public void setNext(RowView next) {
+		this.next = next;
 	}
 
 	public int getItemId() {
@@ -83,7 +85,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 		} else {
 			mWidgetRow_Value.setVisibility(View.GONE);
 		}
-		groupId = rowBuilder.getGroupId();
 		itemId = rowBuilder.getItemId();
 
 	}
@@ -106,16 +107,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private int iconResourceId;
 		private Context context;
 		private String value_String;
-		private int groupId;
-
-		public int getGroupId() {
-			return groupId;
-		}
-
-		public Builder setGroupId(int groupId) {
-			this.groupId = groupId;
-			return this;
-		}
 
 		public int getItemId() {
 			return itemId;
@@ -181,5 +172,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 			return rowView;
 		}
 	}
+
 
 }

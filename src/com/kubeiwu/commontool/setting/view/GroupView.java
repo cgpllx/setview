@@ -1,13 +1,8 @@
 package com.kubeiwu.commontool.setting.view;
 
-import java.util.ArrayList;
-
-import com.kubeiwu.commontool.R;
+import java.util.LinkedList;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -30,38 +25,44 @@ public class GroupView extends LinearLayout {
 		initGroupView();
 	}
 
-	public static GroupView newInstance() {
-		return null;
-	}
-
 	private void initGroupView() {
 		setOrientation(VERTICAL);
 		setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 		setDividerPadding(2);
-		// setDividerDrawable(getResources().getDrawable(R.drawable.divider));
-		// setBackgroundResource(R.drawable.groupviewbg1);
 		LayoutParams l = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		setPadding(0, 20, 0, 0);
-		// l.setMargins(2, 2, 2, 2);
 		setLayoutParams(l);
-		// setBackgroundColor(Color.RED);
 	}
 
-	// private ArrayList<RowView> rowViews = new ArrayList<>();
-	SparseArray<RowView> rowViewArray = new SparseArray<RowView>();
-
-	public void addAllRowView(ArrayList<RowView> rowViews) {
-		// this.rowViews.addAll(rowViews);
+	public SparseArray<LinkedList<RowView>> getRowViewArray() {
+		return mRowViewArray;
 	}
 
-	public void addRowView(RowView rowView) {
-		this.rowViewArray.put(rowView.getItemId(), rowView);
+	public void addrowViewArray(SparseArray<LinkedList<RowView>> rowViewArray) {
+		if (rowViewArray != null && rowViewArray.size() > 0) {
+			for (int i = 0; i < rowViewArray.size(); i++) {
+				this.mRowViewArray.put(rowViewArray.keyAt(i), rowViewArray.valueAt(i));
+			}
+		}
+
+		// this.rowViewArray.
 	}
 
-	// public void addRowView(int index, RowView rowViews) {
-	// this.rowViews.add(index, rowViews);
-	// notifyDataChanged();
-	// }
+	public void setRowViewArray(SparseArray<LinkedList<RowView>> rowViewArray) {
+		this.mRowViewArray = rowViewArray;
+	}
+
+	public void addAllRowView(int order, LinkedList<RowView> rowViewlinkedlist) {
+		LinkedList<RowView> entry = mRowViewArray.get(order, new LinkedList<RowView>());
+		entry.addAll(rowViewlinkedlist);
+		mRowViewArray.put(order, rowViewlinkedlist);
+	}
+
+	public void addRowView(int order, RowView rowView) {
+		LinkedList<RowView> linkedList = mRowViewArray.get(order, new LinkedList<RowView>());
+		linkedList.addLast(rowView);
+		mRowViewArray.put(order, linkedList);
+	}
 
 	@Override
 	public void setDividerDrawable(Drawable divider) {
@@ -69,14 +70,33 @@ public class GroupView extends LinearLayout {
 	}
 
 	public void notifyDataChanged() {
-		if (rowViewArray != null && rowViewArray.size() > 0) {
-			for (int i = 0; i < rowViewArray.size(); i++) {
-				RowView rowView = rowViewArray.valueAt(i);
-				addView(rowView);
-				rowView.notifyDataChanged();
+		if (mRowViewArray != null && mRowViewArray.size() > 0) {
+			for (int i = 0; i < mRowViewArray.size(); i++) {
+				LinkedList<RowView> lists = mRowViewArray.valueAt(i);
+				for (RowView rowView : lists) {
+					addView(rowView);
+					rowView.notifyDataChanged();
+				}
 			}
 		} else {
 			setVisibility(View.GONE);
+		}
+	}
+
+	SparseArray<LinkedList<RowView>> mRowViewArray = new SparseArray<LinkedList<RowView>>();
+
+	
+	//在GroupView中添加GroupView
+	public void addGroupView(GroupView entry) {
+		SparseArray<LinkedList<RowView>> value = entry.getRowViewArray();// 传进来的值
+		for (int i = 0; i < value.size(); i++) {
+			LinkedList<RowView> deliverylinked = value.valueAt(i);
+			LinkedList<RowView> linked = mRowViewArray.valueAt(i);
+			if (linked == null) {
+				mRowViewArray.put(value.keyAt(i), deliverylinked);
+			} else {
+				linked.addAll(deliverylinked);
+			}
 		}
 	}
 }
