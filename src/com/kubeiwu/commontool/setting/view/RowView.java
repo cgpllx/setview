@@ -28,6 +28,7 @@ public class RowView extends LinearLayout implements OnClickListener {
 	public boolean hasNext() {
 		return next != null;
 	}
+
 	private RowView lastRowView = this;
 
 	public void addRowViewLastNode(RowView rowView) {
@@ -80,12 +81,12 @@ public class RowView extends LinearLayout implements OnClickListener {
 			mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
 		}
 		if (rowBuilder.getIconResourceId() != 0) {
-			mWidgetRowAction_Icon.setBackgroundResource(rowBuilder.getIconResourceId());
+			mWidgetRowAction_Icon.setImageResource(rowBuilder.getIconResourceId());
 		} else {
 			mWidgetRowAction_Icon.setVisibility(View.GONE);
 		}
-		if (!TextUtils.isEmpty(rowBuilder.getValue_String())) {
-			mWidgetRow_Value.setText(rowBuilder.getValue_String());
+		if (!TextUtils.isEmpty(rowBuilder.getDefaultValue())) {
+			mWidgetRow_Value.setText(rowBuilder.getDefaultValue());
 		} else {
 			mWidgetRow_Value.setVisibility(View.GONE);
 		}
@@ -110,7 +111,8 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private OnRowClickListener listener;
 		private int iconResourceId;
 		private Context context;
-		private String value_String;
+//		private String value_String;
+		private String defaultValue;
 
 		public int getItemId() {
 			return itemId;
@@ -123,16 +125,24 @@ public class RowView extends LinearLayout implements OnClickListener {
 
 		private int itemId;
 
-		public String getValue_String() {
-			return value_String;
-		}
-
-		public void setValue_String(String value_String) {
-			this.value_String = value_String;
-		}
+//		public String getValue_String() {
+//			return value_String;
+//		}
+//
+//		public void setValue_String(String value_String) {
+//			this.value_String = value_String;
+//		}
 
 		public Builder(Context context) {
 			this.context = context;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
 		}
 
 		public String getLable() {
@@ -157,8 +167,9 @@ public class RowView extends LinearLayout implements OnClickListener {
 			return iconResourceId;
 		}
 
-		public void setIconResourceId(int iconResourceId) {
+		public Builder setIconResourceId(int iconResourceId) {
 			this.iconResourceId = iconResourceId;
+			return this;
 		}
 
 		public RowViewActionEnum getAction() {

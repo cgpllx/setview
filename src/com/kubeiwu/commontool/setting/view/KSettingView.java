@@ -6,9 +6,9 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class ContainerView extends LinearLayout {
+public class KSettingView extends LinearLayout {
 
-	public ContainerView(Context context, AttributeSet attrs, int defStyle) {
+	public KSettingView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initView();
 	}
@@ -20,11 +20,11 @@ public class ContainerView extends LinearLayout {
 		setScrollContainer(true);
 	}
 
-	public ContainerView(Context context, AttributeSet attrs) {
+	public KSettingView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public ContainerView(Context context) {
+	public KSettingView(Context context) {
 		super(context);
 		initView();
 	}
@@ -48,8 +48,8 @@ public class ContainerView extends LinearLayout {
 	 * @param title
 	 * @return
 	 */
-	public RowView addItem(int groupId, int itemId, int order, String title) {
-		RowView rowView = new RowView.Builder(getContext()).setItemId(itemId)//
+	public RowView addItem(int groupId, int itemId, int order, String title, int iconResourceId) {
+		RowView rowView = new RowView.Builder(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
 				.setLable(title).setAction(RowViewActionEnum.My_POSTS).create();
 		GroupView groupView = mGroupViewArray.get(groupId);
 		if (groupView == null) {
@@ -59,6 +59,29 @@ public class ContainerView extends LinearLayout {
 		groupView.addRowView(order, rowView);
 		mGroupViewArray.put(groupId, groupView);
 
+		return rowView;
+	};
+
+	/**
+	 * 
+	 * @param groupId
+	 *            组id
+	 * @param order
+	 *            该item在改组中的排序
+	 * @param rowView
+	 * @return
+	 */
+	public RowView addItem(int groupId, int order, RowView rowView) {
+		if (rowView == null) {
+			throw new IllegalArgumentException("Parameter rowView cannot be empty");
+		}
+		GroupView groupView = mGroupViewArray.get(groupId);
+		if (groupView == null) {
+			groupView = new GroupView(getContext());
+			mGroupViewArray.put(groupId, groupView);
+		}
+		groupView.addRowView(order, rowView);
+		mGroupViewArray.put(groupId, groupView);
 		return rowView;
 	};
 
@@ -91,14 +114,14 @@ public class ContainerView extends LinearLayout {
 	 * 
 	 * @param groupViewArray
 	 */
-	public void addGroupView(int groupId,GroupView groupView) {
-		GroupView delivery=this.mGroupViewArray.get(groupId);
-		if(delivery==null){
+	public void addGroupView(int groupId, GroupView groupView) {
+		GroupView delivery = this.mGroupViewArray.get(groupId);
+		if (delivery == null) {
 			this.mGroupViewArray.put(groupId, groupView);
-		}else{
+		} else {
 			delivery.addGroupView(groupView);
 		}
-		 
+
 	}
 
 	public void commit() {
