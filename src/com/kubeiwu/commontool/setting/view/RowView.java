@@ -1,7 +1,5 @@
 package com.kubeiwu.commontool.setting.view;
 
-import java.util.LinkedList;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -21,14 +19,20 @@ public class RowView extends LinearLayout implements OnClickListener {
 	private TextView mWidgetRow_Value;
 	private ImageView mWidgetRow_righ_Common_arrow;
 	private int itemId;
-	private RowView next;
+	private RowView next = null;
 
 	public RowView getNext() {
 		return next;
 	}
 
-	public void setNext(RowView next) {
-		this.next = next;
+	public boolean hasNext() {
+		return next != null;
+	}
+	private RowView lastRowView = this;
+
+	public void addRowViewLastNode(RowView rowView) {
+		lastRowView.next = rowView;
+		lastRowView = rowView;
 	}
 
 	public int getItemId() {
@@ -172,6 +176,5 @@ public class RowView extends LinearLayout implements OnClickListener {
 			return rowView;
 		}
 	}
-
 
 }

@@ -1,7 +1,5 @@
 package com.kubeiwu.commontool.setting.view;
 
-import java.util.LinkedList;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -14,7 +12,6 @@ public class GroupView extends LinearLayout {
 		super(context, attrs, defStyleAttr);
 		initGroupView();
 	}
-
 	public GroupView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
@@ -34,28 +31,35 @@ public class GroupView extends LinearLayout {
 	}
 
 	/**
-	 * 获取当前groupView的子view
-	 * 
-	 * @return
-	 */
-	public SparseArray<LinkedList<RowView>> getRowViewArray() {
-		return this.mRowViewArray;
-	}
-
-	/**
 	 * 增加一组RowView
 	 * 
 	 * @param order
 	 *            位置
 	 * @param rowViewlinkedlist
 	 */
-	public void addAllRowView(int order, LinkedList<RowView> rowViewlinkedlist) {
-		LinkedList<RowView> entry = this.mRowViewArray.valueAt(order);
-		if (entry == null) {
-			this.mRowViewArray.put(order, rowViewlinkedlist);
+	public void addAllRowView(SparseArray<RowView> rowViewArray) {
+		if (mRowViewArray == null || mRowViewArray.size() == 0) {
+			mRowViewArray = rowViewArray;
 		} else {
-			entry.addAll(rowViewlinkedlist);
+			for (int i = 0; i < rowViewArray.size(); i++) {
+				RowView linked = this.mRowViewArray.valueAt(i);
+				RowView deliverylinked = rowViewArray.valueAt(i);
+				if (linked == null) {
+					mRowViewArray.put(rowViewArray.keyAt(i), deliverylinked);
+				} else {
+					linked.addRowViewLastNode(deliverylinked);
+				}
+			}
 		}
+	}
+
+	/**
+	 * 获取当前groupView的子view
+	 * 
+	 * @return
+	 */
+	public SparseArray<RowView> getmRowViewArray() {
+		return mRowViewArray;
 	}
 
 	/**
@@ -65,21 +69,22 @@ public class GroupView extends LinearLayout {
 	 * @param rowView
 	 */
 	public void addRowView(int order, RowView rowView) {
-		LinkedList<RowView> entry = this.mRowViewArray.valueAt(order);
+		RowView entry = this.mRowViewArray.get(order);
 		if (entry == null) {
-			LinkedList<RowView> lists = new LinkedList<RowView>();
-			lists.add(rowView);
-			this.mRowViewArray.put(order, lists);
+			this.mRowViewArray.put(order, rowView);
 		} else {
-			entry.addLast(rowView);
+			entry.addRowViewLastNode(rowView);
 		}
 	}
 
 	public void notifyDataChanged() {
 		if (this.mRowViewArray != null && this.mRowViewArray.size() > 0) {
+			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
-				LinkedList<RowView> lists = this.mRowViewArray.valueAt(i);
-				for (RowView rowView : lists) {
+				rowView = this.mRowViewArray.valueAt(i);
+				addView(rowView);
+				while (rowView != null && rowView.hasNext()) {
+					rowView = rowView.getNext();
 					addView(rowView);
 					rowView.notifyDataChanged();
 				}
@@ -88,20 +93,11 @@ public class GroupView extends LinearLayout {
 			setVisibility(View.GONE);
 		}
 	}
-
-	private SparseArray<LinkedList<RowView>> mRowViewArray = new SparseArray<LinkedList<RowView>>();
+	private SparseArray<RowView> mRowViewArray = new SparseArray<RowView>();
 
 	// 在GroupView中添加GroupView
 	public void addGroupView(GroupView entry) {
-		SparseArray<LinkedList<RowView>> value = entry.getRowViewArray();// 传进来的值
-		for (int i = 0; i < value.size(); i++) {
-			LinkedList<RowView> deliverylinked = value.valueAt(i);
-			LinkedList<RowView> linked = mRowViewArray.valueAt(i);
-			if (linked == null) {
-				mRowViewArray.put(value.keyAt(i), deliverylinked);
-			} else {
-				linked.addAll(deliverylinked);
-			}
-		}
+		SparseArray<RowView> value = entry.getmRowViewArray();// 传进来的值
+		addAllRowView(value);
 	}
 }

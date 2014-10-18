@@ -92,7 +92,7 @@ public class ContainerView extends LinearLayout {
 	 * @param groupViewArray
 	 */
 	public void addGroupView(int groupId,GroupView groupView) {
-		GroupView delivery=this.mGroupViewArray.valueAt(groupId);
+		GroupView delivery=this.mGroupViewArray.get(groupId);
 		if(delivery==null){
 			this.mGroupViewArray.put(groupId, groupView);
 		}else{
