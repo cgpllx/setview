@@ -1,0 +1,161 @@
+package com.kubeiwu.commontool.setting;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StateListDrawable;
+
+import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
+
+public class ItemBgSelectorUtil {
+
+	public static Drawable getDrawable(Drawable lineColor, Drawable backgroundColor, int rowViewPosition) {
+		Drawable[] layers = new Drawable[] { lineColor, backgroundColor };
+		LayerDrawable layerDrawable = new LayerDrawable(layers);
+		// layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+		// layerDrawable.setLayerInset(1, 1, 0, 1, 1);
+
+		switch (rowViewPosition) {
+		case RowViewPosition.UP:
+		case RowViewPosition.ALL:
+			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+			layerDrawable.setLayerInset(1, 1, 1, 1, 1);
+			break;
+		case RowViewPosition.MIDDLE:
+		case RowViewPosition.DOWM:
+			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+			layerDrawable.setLayerInset(1, 1, 0, 1, 1);
+			break;
+		}
+		return layerDrawable;
+	}
+
+	/** 设置Selector。 */
+	public static StateListDrawable newSelector(Context context, int idNormal, int idPressed, int idFocused, int idUnable) {
+		StateListDrawable bg = new StateListDrawable();
+		Drawable normal = idNormal == -1 ? null : context.getResources().getDrawable(idNormal);
+		Drawable pressed = idPressed == -1 ? null : context.getResources().getDrawable(idPressed);
+		Drawable focused = idFocused == -1 ? null : context.getResources().getDrawable(idFocused);
+		Drawable unable = idUnable == -1 ? null : context.getResources().getDrawable(idUnable);
+		// View.PRESSED_ENABLED_STATE_SET
+		bg.addState(new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled }, pressed);
+		// View.ENABLED_FOCUSED_STATE_SET
+		bg.addState(new int[] { android.R.attr.state_enabled, android.R.attr.state_focused }, focused);
+		// View.ENABLED_STATE_SET
+		bg.addState(new int[] { android.R.attr.state_enabled }, normal);
+		// View.FOCUSED_STATE_SET
+		bg.addState(new int[] { android.R.attr.state_focused }, focused);
+		// View.WINDOW_FOCUSED_STATE_SET
+		bg.addState(new int[] { android.R.attr.state_window_focused }, unable);
+		// View.EMPTY_STATE_SET
+		bg.addState(new int[] {}, normal);
+		return bg;
+	}
+
+	public static Drawable createSelector(Drawable normalLineColor, Drawable normalBackgroundColor, //
+			Drawable pressedLineColor, Drawable pressedBackgroundColor, int rowViewPosition) {
+		Drawable normal = getDrawable(normalLineColor, normalBackgroundColor, rowViewPosition);
+		Drawable pressed = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
+		Drawable focused = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
+		Drawable unable = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
+		return newSelector(normal, pressed, focused, unable);
+	}
+
+	/**
+	 * 根据颜色资源创建带圆角的资源Drawable
+	 * 
+	 * @param context
+	 * @param idRes
+	 *            color资源
+	 * @param rowViewPosition
+	 *            RowViewPosition.UP MIDDLE DOWM ALL
+	 * @return
+	 */
+	public static Drawable getDrawableFromResId(Context context, int idRes, int rowViewPosition) {
+		GradientDrawable gd = new GradientDrawable();// 创建drawable
+
+		switch (rowViewPosition) {
+		case RowViewPosition.UP:
+			gd.setCornerRadii(new float[] { 15, 15, 15, 15, 0, 0, 0, 0 });// 长度是8
+			break;
+		case RowViewPosition.MIDDLE:
+			gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });// 长度是8
+			break;
+		case RowViewPosition.DOWM:
+			gd.setCornerRadii(new float[] { 0, 0, 0, 0, 15, 15, 15, 15 });// 长度是8
+			break;
+		case RowViewPosition.ALL:
+			gd.setCornerRadii(new float[] { 15, 15, 15, 15, 15, 15, 15, 15 });//
+			break;
+		}
+		// gd.setCornerRadii(radii);// 长度是8
+//		float roundRadius = 25;
+//		gd.setCornerRadius(roundRadius);// 设置圆角
+		gd.setShape(GradientDrawable.RECTANGLE);// 设置形状为矩形
+		gd.setUseLevel(true);
+//		gd.setGradientRadius(25);
+		int color = context.getResources().getColor(idRes);
+		gd.setColor(color);
+		gd.setAlpha(1);
+		return gd;
+	}
+
+	public static Drawable up;
+	public static Drawable middle;
+	public static Drawable down;
+	public static Drawable all;
+
+	public static void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
+		up = createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.UP);
+		middle = createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.MIDDLE);
+		down = createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.DOWM);
+		all = createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.ALL);
+	}
+
+	public static Drawable createSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor, int rowViewPosition) {
+		Drawable normalLineColor = getDrawableFromResId(context, idNormalLineColor, rowViewPosition);
+		Drawable normalBackgroundColor = getDrawableFromResId(context, idNormalBackgroundColor, rowViewPosition);
+		Drawable pressedLineColor = getDrawableFromResId(context, idPressedLineColor, rowViewPosition);
+		Drawable pressedBackgroundColor = getDrawableFromResId(context, idPressedBackgroundColor, rowViewPosition);
+		return createSelector(normalLineColor, normalBackgroundColor, pressedLineColor, pressedBackgroundColor, rowViewPosition);
+	}
+
+	/** 设置Selector。 */
+	public static StateListDrawable newSelector(Drawable normal, Drawable pressed, Drawable focused, Drawable unable) {
+		try {
+			StateListDrawable bg = new StateListDrawable();
+			// View.PRESSED_ENABLED_STATE_SET
+			bg.addState(new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled }, pressed);
+			// View.ENABLED_FOCUSED_STATE_SET
+			bg.addState(new int[] { android.R.attr.state_enabled, android.R.attr.state_focused }, focused);
+			// View.ENABLED_STATE_SET
+			bg.addState(new int[] { android.R.attr.state_enabled }, normal);
+			// View.FOCUSED_STATE_SET
+			bg.addState(new int[] { android.R.attr.state_focused }, focused);
+			// View.WINDOW_FOCUSED_STATE_SET
+			bg.addState(new int[] { android.R.attr.state_window_focused }, unable);
+			// View.EMPTY_STATE_SET
+			bg.addState(new int[] {}, normal);
+			return bg;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+
+	/** 对TextView设置不同状态时其文字颜色。 */
+	public ColorStateList createColorStateList(int normal, int pressed, int focused, int unable) {
+		int[] colors = new int[] { pressed, focused, normal, focused, unable, normal };
+		int[][] states = new int[6][];
+		states[0] = new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled };
+		states[1] = new int[] { android.R.attr.state_enabled, android.R.attr.state_focused };
+		states[2] = new int[] { android.R.attr.state_enabled };
+		states[3] = new int[] { android.R.attr.state_focused };
+		states[4] = new int[] { android.R.attr.state_window_focused };
+		states[5] = new int[] {};
+		ColorStateList colorList = new ColorStateList(states, colors);
+		return colorList;
+	}
+}
