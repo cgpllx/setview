@@ -14,6 +14,7 @@ public class GroupView extends LinearLayout {
 		super(context, attrs, defStyleAttr);
 		initGroupView();
 	}
+
 	public GroupView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
@@ -84,19 +85,51 @@ public class GroupView extends LinearLayout {
 			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
-				rowView.setRowViewPosition(RowViewPosition.UP);
 				addView(rowView);
-				while (rowView != null && rowView.hasNext()) {
+				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
 					addView(rowView);
 					rowView.notifyDataChanged();
-//					getc
+				}
+			}
+			int count = getChildCount();
+			if (count > 1) {
+
+			} else {
+				View view = getChildAt(1);
+				if (view instanceof RowView) {
+					RowView row = (RowView) view;
+					row.setBackground(null);// all
+				}
+			}
+			if (count <= 1) {
+				try {
+					View view = getChildAt(0);
+					if (view instanceof RowView) {
+						RowView row = (RowView) view;
+						row.setRowViewPosition(RowViewPosition.ALL);
+						row.notifyDataChanged();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					RowView up = (RowView) getChildAt(0);
+					RowView dowm = (RowView) getChildAt(count - 1);
+					up.setRowViewPosition(RowViewPosition.UP);
+					up.notifyDataChanged();
+					dowm.setRowViewPosition(RowViewPosition.DOWM);
+					dowm.notifyDataChanged();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		} else {
 			setVisibility(View.GONE);
 		}
 	}
+
 	private SparseArray<RowView> mRowViewArray = new SparseArray<RowView>();
 
 	// 在GroupView中添加GroupView

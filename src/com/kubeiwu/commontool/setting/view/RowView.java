@@ -1,8 +1,7 @@
 package com.kubeiwu.commontool.setting.view;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Canvas;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -23,14 +22,14 @@ public class RowView extends LinearLayout implements OnClickListener {
 	private ImageView mWidgetRow_righ_Common_arrow;
 	private int itemId;
 	private RowView next = null;
-	private RowViewPosition mRowViewPosition;
+	private int mRowViewPosition = RowViewPosition.MIDDLE;
 
-	public void setRowViewPosition(RowViewPosition postion) {
-		this.mRowViewPosition = postion;
+	public void setRowViewPosition(int rowViewPosition) {
+		this.mRowViewPosition = rowViewPosition;
 	}
 
-	public enum RowViewPosition {
-		UP, MIDDLE, DOWM;
+	public interface RowViewPosition {
+		int UP = 0, MIDDLE = 1, DOWM = 2, ALL = 3;
 	}
 
 	public RowView getNext() {
@@ -76,8 +75,9 @@ public class RowView extends LinearLayout implements OnClickListener {
 		mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
-		setBackground(ItemBgSelectorUtil.createSelector(getContext(), android.R.color.darker_gray, android.R.color.white,//
-				android.R.color.holo_blue_light, android.R.color.holo_blue_light));
+//		setBackground(ItemBgSelectorUtil.createSelector(getContext(), android.R.color.darker_gray, android.R.color.white,//
+//				android.R.color.holo_blue_light, android.R.color.holo_blue_light,1));
+		setBackground(ItemBgSelectorUtil.middle);
 	}
 
 	private Builder rowBuilder;
@@ -114,9 +114,29 @@ public class RowView extends LinearLayout implements OnClickListener {
 			rowBuilder.getListener().onRowClick(rowBuilder.getAction());
 		}
 	}
-
+@Override
+protected void onDraw(Canvas canvas) {
+	// TODO Auto-generated method stub
+	super.onDraw(canvas);
+}
 	public void notifyDataChanged() {
+		ItemBgSelectorUtil.initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
+				android.R.color.holo_blue_light, android.R.color.holo_blue_light);
+		switch (mRowViewPosition) {
+		case RowView.RowViewPosition.UP:
+			setBackground(ItemBgSelectorUtil.up);
+			break;
+		case RowView.RowViewPosition.MIDDLE:
+			setBackground(ItemBgSelectorUtil.middle);
+			break;
+		case RowView.RowViewPosition.DOWM:
+			setBackground(ItemBgSelectorUtil.down);
+			break;
+		case RowView.RowViewPosition.ALL:
+			setBackground(ItemBgSelectorUtil.all);
+			break;
 
+		}
 	}
 
 	public static class Builder {
