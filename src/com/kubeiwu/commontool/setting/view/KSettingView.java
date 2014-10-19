@@ -15,10 +15,13 @@ public class KSettingView extends LinearLayout {
 
 	private void initView() {
 		setOrientation(VERTICAL);
-		setPadding(10, 10, 10, 10);
-		setScrollbarFadingEnabled(true);
-		setScrollContainer(true);
+		setPadding(15, 10, 15, 10);
+		
+		LayoutParams l = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//		l.setMargins(20, 10, 20, 10);
+		setLayoutParams(l);
 	}
+//	set
 
 	public KSettingView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);

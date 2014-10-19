@@ -1,5 +1,7 @@
 package com.kubeiwu.commontool.setting.view;
 
+import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -82,11 +84,13 @@ public class GroupView extends LinearLayout {
 			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
+				rowView.setRowViewPosition(RowViewPosition.UP);
 				addView(rowView);
 				while (rowView != null && rowView.hasNext()) {
 					rowView = rowView.getNext();
 					addView(rowView);
 					rowView.notifyDataChanged();
+//					getc
 				}
 			}
 		} else {

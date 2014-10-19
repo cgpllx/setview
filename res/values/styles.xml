@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -17,10 +17,10 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+<!--         <item name="android:background">@drawable/setting_frame_up</item> -->
     <style name="SettingViewContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/setting_view_min_height</item>
-        <item name="android:background">@drawable/setting_frame_middle</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
@@ -28,6 +28,7 @@
     <style name="SettingViewIcon">
         <item name="android:layout_width">@dimen/setting_view_min_height</item>
         <item name="android:layout_height">@dimen/setting_view_min_height</item>
+        <item name="android:padding">1dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:scaleType">centerInside</item>
     </style>

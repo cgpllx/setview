@@ -18,9 +18,37 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		
 		ScrollView scrollView=new ScrollView(getApplicationContext());
-		scrollView.addView(init3());
+		scrollView.addView(initKSettingView());
 		setContentView(scrollView);
 		// setContentView(init());
+	}
+	View initKSettingView() {
+		KSettingView containerView = new KSettingView(getApplicationContext());
+		// SetViewUtil setViewUtil=new SetViewUtil(containerView);
+		RowView rowView1 = new RowView.Builder(getBaseContext()).setLable("中国移动1").setDefaultValue("中国联通").setIconResourceId(R.drawable.qq_icon01).setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView21 = new RowView.Builder(getBaseContext()).setLable("中国移动2").setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView31 = new RowView.Builder(getBaseContext()).setLable("中国移动3").setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView41= new RowView.Builder(getBaseContext()).setLable("中国移动4") .create();
+		RowView rowView51 = new RowView.Builder(getBaseContext()).setLable("中国移动5").setDefaultValue("中国联通").setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView11 = new RowView.Builder(getBaseContext()).setLable("中国移动1").setIconResourceId(R.drawable.ic_launcher).setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView2 = new RowView.Builder(getBaseContext()).setLable("中国移动2").setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView3 = new RowView.Builder(getBaseContext()).setLable("中国移动3") .create();
+		RowView rowView4 = new RowView.Builder(getBaseContext()).setLable("中国移动4").setAction(RowViewActionEnum.My_POSTS).create();
+		RowView rowView5 = new RowView.Builder(getBaseContext()).setLable("中国移动5").setDefaultValue("中国联通").setAction(RowViewActionEnum.My_POSTS).create();
+		
+		containerView.addItem(1, 1, rowView1);
+		containerView.addItem(2, 1, rowView2);
+		containerView.addItem(2, 1, rowView3);
+		containerView.addItem(2, 1, rowView4);
+		containerView.addItem(3, 2, rowView5);
+		containerView.addItem(3, 3, rowView11);
+		containerView.addItem(3, 4, rowView21);
+		containerView.addItem(3, 6, rowView31);
+		containerView.addItem(3, 7, rowView41);
+		containerView.addItem(3, 8, rowView51);
+		
+		containerView.commit();
+		return containerView;
 	}
 	View init3() {
 		KSettingView containerView = new KSettingView(getApplicationContext());

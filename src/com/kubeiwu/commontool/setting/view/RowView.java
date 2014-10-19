@@ -1,6 +1,8 @@
 package com.kubeiwu.commontool.setting.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kubeiwu.commontool.R;
+import com.kubeiwu.commontool.setting.ItemBgSelectorUtil;
 
 public class RowView extends LinearLayout implements OnClickListener {
 
@@ -20,6 +23,15 @@ public class RowView extends LinearLayout implements OnClickListener {
 	private ImageView mWidgetRow_righ_Common_arrow;
 	private int itemId;
 	private RowView next = null;
+	private RowViewPosition mRowViewPosition;
+
+	public void setRowViewPosition(RowViewPosition postion) {
+		this.mRowViewPosition = postion;
+	}
+
+	public enum RowViewPosition {
+		UP, MIDDLE, DOWM;
+	}
 
 	public RowView getNext() {
 		return next;
@@ -64,17 +76,19 @@ public class RowView extends LinearLayout implements OnClickListener {
 		mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
+		setBackground(ItemBgSelectorUtil.createSelector(getContext(), android.R.color.darker_gray, android.R.color.white,//
+				android.R.color.holo_blue_light, android.R.color.holo_blue_light));
 	}
 
 	private Builder rowBuilder;
 
 	public void initRowViewData(Builder rowBuilder) {
 		this.rowBuilder = rowBuilder;
-		mWidgetRowAction_Icon.setBackgroundResource(rowBuilder.getIconResourceId());
 		mWidgetRow_Label.setText(rowBuilder.getLable());
 		if (rowBuilder.getAction() != null) {
 			setOnClickListener(this);
 			// setBackgroundResource(R.drawable.widgets_general_row_selector);
+			// set
 			mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);// 可以点击时候显示箭头
 		} else {
 			// setBackgroundColor(Color.WHITE);
@@ -111,7 +125,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private OnRowClickListener listener;
 		private int iconResourceId;
 		private Context context;
-//		private String value_String;
 		private String defaultValue;
 
 		public int getItemId() {
@@ -125,14 +138,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 
 		private int itemId;
 
-//		public String getValue_String() {
-//			return value_String;
-//		}
-//
-//		public void setValue_String(String value_String) {
-//			this.value_String = value_String;
-//		}
-
 		public Builder(Context context) {
 			this.context = context;
 		}
@@ -141,8 +146,9 @@ public class RowView extends LinearLayout implements OnClickListener {
 			return defaultValue;
 		}
 
-		public void setDefaultValue(String defaultValue) {
+		public Builder setDefaultValue(String defaultValue) {
 			this.defaultValue = defaultValue;
+			return this;
 		}
 
 		public String getLable() {
