@@ -10,29 +10,56 @@ import android.graphics.drawable.StateListDrawable;
 import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
 
 public class ItemBgSelectorUtil {
+	public int out_circle_Size = 0;
+	public int linewidth = 1;
 
-	public static Drawable getDrawable(Drawable lineColor, Drawable backgroundColor, int rowViewPosition) {
+	public ItemBgSelectorUtil() {
+	}
+
+	public int getOut_circle_Size() {
+		return out_circle_Size;
+	}
+
+	public void setOut_circle_Size(int out_circle_Size) {
+		this.out_circle_Size = out_circle_Size;
+	}
+
+	public int getLinewidth() {
+		return linewidth;
+	}
+
+	public void setLinewidth(int linewidth) {
+		this.linewidth = linewidth;
+	}
+
+	public ItemBgSelectorUtil(int out_circle_Size, int linewidth) {
+		super();
+		this.out_circle_Size = out_circle_Size;
+		this.linewidth = linewidth;
+	}
+
+	public Drawable getDrawable(Drawable lineColor, Drawable backgroundColor, int rowViewPosition) {
 		Drawable[] layers = new Drawable[] { lineColor, backgroundColor };
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
 		switch (rowViewPosition) {
 		case RowViewPosition.UP:
 		case RowViewPosition.ALL:
 			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-			layerDrawable.setLayerInset(1, 1, 1, 1, 1);
+			layerDrawable.setLayerInset(1, linewidth, linewidth, linewidth, linewidth);
 			break;
 		case RowViewPosition.MIDDLE:
 		case RowViewPosition.DOWM:
 			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-			layerDrawable.setLayerInset(1, 1, 0, 1, 1);
+			layerDrawable.setLayerInset(1, linewidth, 0, linewidth, linewidth);
 			break;
 		}
 		return layerDrawable;
 	}
 
 	/**
-	 *  设置Selector
+	 * 设置Selector
 	 */
-	public static StateListDrawable newSelector(Context context, int idNormal, int idPressed, int idFocused, int idUnable) {
+	public StateListDrawable newSelector(Context context, int idNormal, int idPressed, int idFocused, int idUnable) {
 		StateListDrawable bg = new StateListDrawable();
 		Drawable normal = idNormal == -1 ? null : context.getResources().getDrawable(idNormal);
 		Drawable pressed = idPressed == -1 ? null : context.getResources().getDrawable(idPressed);
@@ -53,7 +80,7 @@ public class ItemBgSelectorUtil {
 		return bg;
 	}
 
-	public static Drawable createSelector(Drawable normalLineColor, Drawable normalBackgroundColor, //
+	public Drawable createSelector(Drawable normalLineColor, Drawable normalBackgroundColor, //
 			Drawable pressedLineColor, Drawable pressedBackgroundColor, int rowViewPosition) {
 		Drawable normal = getDrawable(normalLineColor, normalBackgroundColor, rowViewPosition);
 		Drawable pressed = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
@@ -72,37 +99,24 @@ public class ItemBgSelectorUtil {
 	 *            RowViewPosition.UP MIDDLE DOWM ALL
 	 * @return
 	 */
-	public static Drawable getDrawableFromResId(Context context, int idRes, int rowViewPosition, boolean bg) {
+	public Drawable getDrawableFromResId(Context context, int idRes, int rowViewPosition, boolean bg) {
 		GradientDrawable gd = new GradientDrawable();// 创建drawable
-
+		int inner_circle_size = out_circle_Size - linewidth < 0 ? 0 : out_circle_Size - linewidth;
+		int circle_size = bg ? inner_circle_size : out_circle_Size;// 内圆半径为外圆减线宽
 		switch (rowViewPosition) {
 		case RowViewPosition.UP:
-			if (bg) {
-				gd.setCornerRadii(new float[] { 14, 14, 14, 14, 0, 0, 0, 0 });// 长度是8
-			} else {
-				gd.setCornerRadii(new float[] { 15, 15, 15, 15, 0, 0, 0, 0 });// 长度是8
-			}
+			gd.setCornerRadii(new float[] { circle_size, circle_size, circle_size, circle_size, //
+					0, 0, 0, 0 });
 			break;
 		case RowViewPosition.MIDDLE:
-			if (bg) {
-				gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });// 长度是8
-			} else {
-				gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });// 长度是8
-			}
+			gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });
 			break;
 		case RowViewPosition.DOWM:
-			if (bg) {
-				gd.setCornerRadii(new float[] { 0, 0, 0, 0, 14, 14, 14, 14 });// 长度是8
-			} else {
-				gd.setCornerRadii(new float[] { 0, 0, 0, 0, 15, 15, 15, 15 });// 长度是8
-			}
+			gd.setCornerRadii(new float[] { 0, 0, 0, 0, circle_size, circle_size, circle_size, circle_size });// 长度是8
 			break;
 		case RowViewPosition.ALL:
-			if (bg) {
-				gd.setCornerRadii(new float[] { 14, 14, 14, 14, 14, 14, 14, 14 });//
-			} else {
-				gd.setCornerRadii(new float[] { 15, 15, 15, 15, 15, 15, 15, 15 });//
-			}
+			gd.setCornerRadii(new float[] { circle_size, circle_size, circle_size, circle_size, circle_size, //
+					circle_size, circle_size, circle_size });//
 			break;
 		}
 		// gd.setCornerRadii(radii);// 长度是8
@@ -117,7 +131,7 @@ public class ItemBgSelectorUtil {
 		return gd;
 	}
 
-	public static Drawable createSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor, int rowViewPosition) {
+	public Drawable createSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor, int rowViewPosition) {
 		Drawable normalLineColor = getDrawableFromResId(context, idNormalLineColor, rowViewPosition, false);
 		Drawable normalBackgroundColor = getDrawableFromResId(context, idNormalBackgroundColor, rowViewPosition, true);
 		Drawable pressedLineColor = getDrawableFromResId(context, idPressedLineColor, rowViewPosition, false);

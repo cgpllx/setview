@@ -70,16 +70,33 @@ public class RowView extends LinearLayout implements OnClickListener {
 		initRowView();
 	}
 
-	public Drawable up;
-	public Drawable middle;
-	public Drawable down;
-	public Drawable all;
+	private Drawable upSelector;
+	private Drawable middleSelector;
+	private Drawable downSelector;
+	private Drawable allSelector;
+
+	public void setLastRowView(RowView lastRowView) {
+		this.lastRowView = lastRowView;
+	}
+
+	public void setMiddleSelector(Drawable middleSelector) {
+		this.middleSelector = middleSelector;
+	}
+
+	public void setDownSelector(Drawable downSelector) {
+		this.downSelector = downSelector;
+	}
+
+	public void setAllSelector(Drawable allSelector) {
+		this.allSelector = allSelector;
+	}
 
 	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
-		up = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.UP);
-		middle = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.MIDDLE);
-		down = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.DOWM);
-		all = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.ALL);
+		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(15, 1);
+		upSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.UP);
+		middleSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.MIDDLE);
+		downSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.DOWM);
+		allSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.ALL);
 	}
 
 	private void initRowView() {
@@ -88,11 +105,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 		mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
-		// setBackground(ItemBgSelectorUtil.createSelector(getContext(), android.R.color.darker_gray, android.R.color.white,//
-		// android.R.color.holo_blue_light, android.R.color.holo_blue_light,1));
-		// setBackground(ItemBgSelectorUtil.middle);
-		initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
-				android.R.color.holo_blue_light, android.R.color.holo_blue_light);
 	}
 
 	private Builder rowBuilder;
@@ -119,7 +131,9 @@ public class RowView extends LinearLayout implements OnClickListener {
 		} else {
 			mWidgetRow_Value.setVisibility(View.GONE);
 		}
-		itemId = rowBuilder.getItemId();
+
+		initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
+				android.R.color.holo_blue_light, android.R.color.holo_blue_light);
 
 	}
 
@@ -132,7 +146,6 @@ public class RowView extends LinearLayout implements OnClickListener {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		super.onDraw(canvas);
 	}
 
@@ -140,16 +153,16 @@ public class RowView extends LinearLayout implements OnClickListener {
 
 		switch (mRowViewPosition) {
 		case RowView.RowViewPosition.UP:
-			setBackground(up);
+			setBackground(upSelector);
 			break;
 		case RowView.RowViewPosition.MIDDLE:
-			setBackground(middle);
+			setBackground(middleSelector);
 			break;
 		case RowView.RowViewPosition.DOWM:
-			setBackground(down);
+			setBackground(downSelector);
 			break;
 		case RowView.RowViewPosition.ALL:
-			setBackground(all);
+			setBackground(allSelector);
 			break;
 
 		}
@@ -162,6 +175,26 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private int iconResourceId;
 		private Context context;
 		private String defaultValue;
+		private int idNormalLineColor;
+		private int idNormalBackgroundColor;
+		private int idPressedLineColor;
+		private int idPressedBackgroundColor;
+
+		/**
+		 * 设置item的背景选择器 颜色 
+		 * @param idNormalLineColor  默认时候线条的颜色
+		 * @param idNormalBackgroundColor  默认时候背景颜色
+		 * @param idPressedLineColor  按下时候背景颜色
+		 * @param idPressedBackgroundColor  按下时候背景颜色
+		 */
+		public void setSelectorColorIds(int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
+			this.idNormalLineColor = idNormalLineColor;
+			this.idNormalBackgroundColor = idNormalBackgroundColor;
+			this.idNormalLineColor = idPressedLineColor;
+			this.idPressedBackgroundColor = idPressedBackgroundColor;
+		}
+
+	 
 
 		public int getItemId() {
 			return itemId;

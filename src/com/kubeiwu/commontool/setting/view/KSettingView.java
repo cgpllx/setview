@@ -22,7 +22,6 @@ public class KSettingView extends LinearLayout {
 		setLayoutParams(l);
 
 	}
-//	set
 
 	public KSettingView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
