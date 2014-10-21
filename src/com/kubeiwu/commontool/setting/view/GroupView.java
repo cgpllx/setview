@@ -1,5 +1,7 @@
 package com.kubeiwu.commontool.setting.view;
 
+import com.kubeiwu.commontool.R;
+import com.kubeiwu.commontool.setting.ItemBgSelectorUtil;
 import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
 
 import android.content.Context;
@@ -35,10 +37,7 @@ public class GroupView extends LinearLayout {
 
 	/**
 	 * 增加一组RowView
-	 * 
-	 * @param order
-	 *            位置
-	 * @param rowViewlinkedlist
+	 * @param rowViewArray  key 升序 作为RowView在groupView中的位置的循序
 	 */
 	public void addAllRowView(SparseArray<RowView> rowViewArray) {
 		if (mRowViewArray == null || mRowViewArray.size() == 0) {
@@ -86,6 +85,7 @@ public class GroupView extends LinearLayout {
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
 				addView(rowView);
+				rowView.notifyDataChanged();
 				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
 					addView(rowView);
@@ -93,15 +93,7 @@ public class GroupView extends LinearLayout {
 				}
 			}
 			int count = getChildCount();
-			if (count > 1) {
-
-			} else {
-				View view = getChildAt(1);
-				if (view instanceof RowView) {
-					RowView row = (RowView) view;
-					row.setBackground(null);// all
-				}
-			}
+		 
 			if (count <= 1) {
 				try {
 					View view = getChildAt(0);

@@ -2,6 +2,7 @@ package com.kubeiwu.commontool.setting.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -69,15 +70,29 @@ public class RowView extends LinearLayout implements OnClickListener {
 		initRowView();
 	}
 
+	public Drawable up;
+	public Drawable middle;
+	public Drawable down;
+	public Drawable all;
+
+	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
+		up = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.UP);
+		middle = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.MIDDLE);
+		down = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.DOWM);
+		all = ItemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.ALL);
+	}
+
 	private void initRowView() {
 		LayoutInflater.from(getContext()).inflate(R.layout.setting_view_basic_item_h, this);
 		mWidgetRowAction_Icon = (ImageView) findViewById(R.id.mWidgetRowAction_Icon);
 		mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
-//		setBackground(ItemBgSelectorUtil.createSelector(getContext(), android.R.color.darker_gray, android.R.color.white,//
-//				android.R.color.holo_blue_light, android.R.color.holo_blue_light,1));
-		setBackground(ItemBgSelectorUtil.middle);
+		// setBackground(ItemBgSelectorUtil.createSelector(getContext(), android.R.color.darker_gray, android.R.color.white,//
+		// android.R.color.holo_blue_light, android.R.color.holo_blue_light,1));
+		// setBackground(ItemBgSelectorUtil.middle);
+		initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
+				android.R.color.holo_blue_light, android.R.color.holo_blue_light);
 	}
 
 	private Builder rowBuilder;
@@ -114,26 +129,27 @@ public class RowView extends LinearLayout implements OnClickListener {
 			rowBuilder.getListener().onRowClick(rowBuilder.getAction());
 		}
 	}
-@Override
-protected void onDraw(Canvas canvas) {
-	// TODO Auto-generated method stub
-	super.onDraw(canvas);
-}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		super.onDraw(canvas);
+	}
+
 	public void notifyDataChanged() {
-		ItemBgSelectorUtil.initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
-				android.R.color.holo_blue_light, android.R.color.holo_blue_light);
+
 		switch (mRowViewPosition) {
 		case RowView.RowViewPosition.UP:
-			setBackground(ItemBgSelectorUtil.up);
+			setBackground(up);
 			break;
 		case RowView.RowViewPosition.MIDDLE:
-			setBackground(ItemBgSelectorUtil.middle);
+			setBackground(middle);
 			break;
 		case RowView.RowViewPosition.DOWM:
-			setBackground(ItemBgSelectorUtil.down);
+			setBackground(down);
 			break;
 		case RowView.RowViewPosition.ALL:
-			setBackground(ItemBgSelectorUtil.all);
+			setBackground(all);
 			break;
 
 		}

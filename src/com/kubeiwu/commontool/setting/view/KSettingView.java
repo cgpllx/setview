@@ -1,8 +1,5 @@
 package com.kubeiwu.commontool.setting.view;
 
-import com.kubeiwu.commontool.R;
-import com.kubeiwu.commontool.setting.ItemBgSelectorUtil;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -23,7 +20,7 @@ public class KSettingView extends LinearLayout {
 		LayoutParams l = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 //		l.setMargins(20, 10, 20, 10);
 		setLayoutParams(l);
-		
+
 	}
 //	set
 
