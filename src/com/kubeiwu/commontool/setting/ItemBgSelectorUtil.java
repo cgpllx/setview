@@ -10,8 +10,8 @@ import android.graphics.drawable.StateListDrawable;
 import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
 
 public class ItemBgSelectorUtil {
-	public int out_circle_Size = 0;
-	public int linewidth = 1;
+	private int out_circle_Size = 0;
+	private int linewidth = 1;
 
 	public ItemBgSelectorUtil() {
 	}

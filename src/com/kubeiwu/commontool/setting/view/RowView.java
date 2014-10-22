@@ -91,8 +91,15 @@ public class RowView extends LinearLayout implements OnClickListener {
 		this.allSelector = allSelector;
 	}
 
+	private int out_circle_Size = 15;
+	private int linewidth = 1;
+
 	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
-		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(15, 1);
+		initSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, 15, 1);
+	}
+
+	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor, int out_circle_Size, int linewidth) {
+		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(out_circle_Size, linewidth);
 		upSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.UP);
 		middleSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.MIDDLE);
 		downSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.DOWM);
@@ -111,41 +118,43 @@ public class RowView extends LinearLayout implements OnClickListener {
 
 	public void initRowViewData(Builder rowBuilder) {
 		this.rowBuilder = rowBuilder;
-		mWidgetRow_Label.setText(rowBuilder.getLable());
-		if (rowBuilder.getAction() != null) {
+		mWidgetRow_Label.setText(rowBuilder.lable);
+		if (rowBuilder.action != null) {
 			setOnClickListener(this);
-			// setBackgroundResource(R.drawable.widgets_general_row_selector);
-			// set
 			mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);// 可以点击时候显示箭头
 		} else {
-			// setBackgroundColor(Color.WHITE);
 			mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
 		}
-		if (rowBuilder.getIconResourceId() != 0) {
-			mWidgetRowAction_Icon.setImageResource(rowBuilder.getIconResourceId());
+		if (rowBuilder.iconResourceId != 0) {
+			mWidgetRowAction_Icon.setImageResource(rowBuilder.iconResourceId);
 		} else {
 			mWidgetRowAction_Icon.setVisibility(View.GONE);
 		}
-		if (!TextUtils.isEmpty(rowBuilder.getDefaultValue())) {
-			mWidgetRow_Value.setText(rowBuilder.getDefaultValue());
+		if (!TextUtils.isEmpty(rowBuilder.defaultValue)) {
+			mWidgetRow_Value.setText(rowBuilder.defaultValue);
 		} else {
 			mWidgetRow_Value.setVisibility(View.GONE);
 		}
-
-		initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
-				android.R.color.holo_blue_light, android.R.color.holo_blue_light);
+		out_circle_Size = rowBuilder.out_circle_Size > 0 ? rowBuilder.out_circle_Size : out_circle_Size;
+		linewidth = rowBuilder.linewidth > 0 ? rowBuilder.linewidth : linewidth;
+		initSelector(getContext(), rowBuilder.normalLineColorId, rowBuilder.normalBackgroundColorId,//
+				rowBuilder.pressedLineColorId, rowBuilder.pressedBackgroundColorId);
+		// initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
+		// android.R.color.holo_blue_light, android.R.color.holo_blue_light);
 
 	}
 
 	@Override
 	public void onClick(View v) {
 		if (rowBuilder.getListener() != null) {
-			rowBuilder.getListener().onRowClick(rowBuilder.getAction());
+			rowBuilder.getListener().onRowClick(rowBuilder.action);
 		}
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		// AlertDialog.Builder d
+		// AlertController d;
 		super.onDraw(canvas);
 	}
 
@@ -175,29 +184,60 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private int iconResourceId;
 		private Context context;
 		private String defaultValue;
-		private int idNormalLineColor;
-		private int idNormalBackgroundColor;
-		private int idPressedLineColor;
-		private int idPressedBackgroundColor;
+		private int normalLineColorId;
+		private int normalBackgroundColorId;
+		private int pressedLineColorId;
+		private int pressedBackgroundColorId;
+		private int out_circle_Size;
+		private int linewidth;
 
-		/**
-		 * 设置item的背景选择器 颜色 
-		 * @param idNormalLineColor  默认时候线条的颜色
-		 * @param idNormalBackgroundColor  默认时候背景颜色
-		 * @param idPressedLineColor  按下时候背景颜色
-		 * @param idPressedBackgroundColor  按下时候背景颜色
-		 */
-		public void setSelectorColorIds(int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
-			this.idNormalLineColor = idNormalLineColor;
-			this.idNormalBackgroundColor = idNormalBackgroundColor;
-			this.idNormalLineColor = idPressedLineColor;
-			this.idPressedBackgroundColor = idPressedBackgroundColor;
+		public void setOut_circle_Size(int out_circle_Size) {
+			this.out_circle_Size = out_circle_Size;
 		}
 
-	 
+		public void setLinewidth(int linewidth) {
+			this.linewidth = linewidth;
+		}
 
 		public int getItemId() {
 			return itemId;
+		}
+
+		/**
+		 * 设置默认时候的线条颜色
+		 * 
+		 * @param normalLineColorId
+		 */
+		public void setNormalLineColorId(int normalLineColorId) {
+			this.normalLineColorId = normalLineColorId;
+		}
+
+		/**
+		 * 设置默认时候的背景颜色
+		 * 
+		 * @param normalBackgroundColorId
+		 */
+
+		public void setNormalBackgroundColorId(int normalBackgroundColorId) {
+			this.normalBackgroundColorId = normalBackgroundColorId;
+		}
+
+		/**
+		 * 设置按下时候的线条颜色，一般和默认时候一样
+		 * 
+		 * @param pressedLineColorId
+		 */
+		public void setPressedLineColorId(int pressedLineColorId) {
+			this.pressedLineColorId = pressedLineColorId;
+		}
+
+		/**
+		 * 按下时候背景颜色
+		 * 
+		 * @return
+		 */
+		public void setPressedBackgroundColorId(int pressedBackgroundColorId) {
+			this.pressedBackgroundColorId = pressedBackgroundColorId;
 		}
 
 		public Builder setItemId(int itemId) {
@@ -211,17 +251,9 @@ public class RowView extends LinearLayout implements OnClickListener {
 			this.context = context;
 		}
 
-		public String getDefaultValue() {
-			return defaultValue;
-		}
-
 		public Builder setDefaultValue(String defaultValue) {
 			this.defaultValue = defaultValue;
 			return this;
-		}
-
-		public String getLable() {
-			return lable;
 		}
 
 		public Builder setLable(String lable) {
@@ -238,17 +270,9 @@ public class RowView extends LinearLayout implements OnClickListener {
 			return this;
 		}
 
-		public int getIconResourceId() {
-			return iconResourceId;
-		}
-
 		public Builder setIconResourceId(int iconResourceId) {
 			this.iconResourceId = iconResourceId;
 			return this;
-		}
-
-		public RowViewActionEnum getAction() {
-			return action;
 		}
 
 		public Builder setAction(RowViewActionEnum action) {
