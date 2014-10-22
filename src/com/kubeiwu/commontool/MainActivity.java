@@ -1,17 +1,17 @@
 package com.kubeiwu.commontool;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ScrollView;
 
-import com.kubeiwu.commontool.setting.view.KSettingView;
 import com.kubeiwu.commontool.setting.view.GroupView;
+import com.kubeiwu.commontool.setting.view.KSettingView;
 import com.kubeiwu.commontool.setting.view.RowView;
 import com.kubeiwu.commontool.setting.view.RowViewActionEnum;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends  Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

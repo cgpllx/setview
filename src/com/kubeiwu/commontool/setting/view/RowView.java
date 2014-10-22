@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.kubeiwu.commontool.R;
 import com.kubeiwu.commontool.setting.ItemBgSelectorUtil;
+import com.kubeiwu.commontool.setting.SelectorPara;
 
 public class RowView extends LinearLayout implements OnClickListener {
 
@@ -91,8 +92,8 @@ public class RowView extends LinearLayout implements OnClickListener {
 		this.allSelector = allSelector;
 	}
 
-	private int out_circle_Size = 15;
-	private int linewidth = 1;
+	// private int out_circle_Size = 15;
+	// private int linewidth = 1;
 
 	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
 		initSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, 15, 1);
@@ -135,12 +136,18 @@ public class RowView extends LinearLayout implements OnClickListener {
 		} else {
 			mWidgetRow_Value.setVisibility(View.GONE);
 		}
-		out_circle_Size = rowBuilder.out_circle_Size > 0 ? rowBuilder.out_circle_Size : out_circle_Size;
-		linewidth = rowBuilder.linewidth > 0 ? rowBuilder.linewidth : linewidth;
-		initSelector(getContext(), rowBuilder.normalLineColorId, rowBuilder.normalBackgroundColorId,//
-				rowBuilder.pressedLineColorId, rowBuilder.pressedBackgroundColorId);
-		// initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
-		// android.R.color.holo_blue_light, android.R.color.holo_blue_light);
+		SelectorPara selectorPara = rowBuilder.selectorPara;
+		if (selectorPara == null) {
+			selectorPara = new SelectorPara();
+		}
+		initSelector(getContext(), selectorPara.getNormalLineColorId(), selectorPara.getNormalBackgroundColorId(),//
+				selectorPara.getPressedLineColorId(), selectorPara.getPressedBackgroundColorId());
+		// out_circle_Size = rowBuilder.out_circle_Size > 0 ? rowBuilder.out_circle_Size : out_circle_Size;
+		// linewidth = rowBuilder.linewidth > 0 ? rowBuilder.linewidth : linewidth;
+		// initSelector(getContext(), rowBuilder.normalLineColorId, rowBuilder.normalBackgroundColorId,//
+		// rowBuilder.pressedLineColorId, rowBuilder.pressedBackgroundColorId);
+		 initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
+		 android.R.color.holo_blue_light, android.R.color.holo_blue_light);
 
 	}
 
@@ -184,60 +191,21 @@ public class RowView extends LinearLayout implements OnClickListener {
 		private int iconResourceId;
 		private Context context;
 		private String defaultValue;
-		private int normalLineColorId;
-		private int normalBackgroundColorId;
-		private int pressedLineColorId;
-		private int pressedBackgroundColorId;
-		private int out_circle_Size;
-		private int linewidth;
+		private SelectorPara selectorPara;
 
-		public void setOut_circle_Size(int out_circle_Size) {
-			this.out_circle_Size = out_circle_Size;
-		}
+		// private int normalLineColorId;
+		// private int normalBackgroundColorId;
+		// private int pressedLineColorId;
+		// private int pressedBackgroundColorId;
+		// private int out_circle_Size;
+		// private int linewidth;
 
-		public void setLinewidth(int linewidth) {
-			this.linewidth = linewidth;
+		public void setSelectorPara(SelectorPara selectorPara) {
+			this.selectorPara = selectorPara;
 		}
 
 		public int getItemId() {
 			return itemId;
-		}
-
-		/**
-		 * 设置默认时候的线条颜色
-		 * 
-		 * @param normalLineColorId
-		 */
-		public void setNormalLineColorId(int normalLineColorId) {
-			this.normalLineColorId = normalLineColorId;
-		}
-
-		/**
-		 * 设置默认时候的背景颜色
-		 * 
-		 * @param normalBackgroundColorId
-		 */
-
-		public void setNormalBackgroundColorId(int normalBackgroundColorId) {
-			this.normalBackgroundColorId = normalBackgroundColorId;
-		}
-
-		/**
-		 * 设置按下时候的线条颜色，一般和默认时候一样
-		 * 
-		 * @param pressedLineColorId
-		 */
-		public void setPressedLineColorId(int pressedLineColorId) {
-			this.pressedLineColorId = pressedLineColorId;
-		}
-
-		/**
-		 * 按下时候背景颜色
-		 * 
-		 * @return
-		 */
-		public void setPressedBackgroundColorId(int pressedBackgroundColorId) {
-			this.pressedBackgroundColorId = pressedBackgroundColorId;
 		}
 
 		public Builder setItemId(int itemId) {

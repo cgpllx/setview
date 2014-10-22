@@ -1,14 +1,12 @@
 package com.kubeiwu.commontool.setting.view;
 
-import com.kubeiwu.commontool.R;
-import com.kubeiwu.commontool.setting.ItemBgSelectorUtil;
-import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.kubeiwu.commontool.setting.view.RowView.RowViewPosition;
 
 public class GroupView extends LinearLayout {
 
@@ -30,7 +28,7 @@ public class GroupView extends LinearLayout {
 		setOrientation(VERTICAL);
 		setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 		setDividerPadding(2);
-		LayoutParams l = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams l = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		setPadding(0, 20, 0, 0);
 		setLayoutParams(l);
 	}
